@@ -132,6 +132,9 @@ const getCompareSnapshotsPlugin = (on, config) => {
   // Intercept cypress screenshot and create a new image with our own
   // name convention and file structure for simplicity and consistency
   on('after:screenshot', details => {
+            if (details.testFailure) {
+          return;
+      }
     // Change screenshots file permission so it can be moved from drive to drive
     setFilePermission(details.path, 0o777)
     setFilePermission(paths.image.comparison(details.name), 0o777)
